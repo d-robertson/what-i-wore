@@ -49,6 +49,12 @@ function ($scope, $stateParams) {
 function ($scope, Auth, $location) {
   console.log('Token is:', Auth.getToken());
   $scope.Auth = Auth;
+
+// see if user is logged in and if not redirect using $location.path
+  if (!Auth.currentUser()) {
+    $location.path('/login');
+  }
+
   $scope.logout = function() {
     Auth.removeToken();
     console.log('Token removed:', Auth.getToken());
@@ -62,35 +68,55 @@ function ($scope, Auth, $location) {
 
 }])
 
-.controller('addEntryCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('addEntryCtrl', ['$scope', '$stateParams', 'Auth', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, Auth, $location) {
+  $scope.Auth = Auth;
 
+// see if user is logged in and if not redirect using $location.path
+  if (!Auth.currentUser()) {
+    $location.path('/login');
+  }
 
 }])
 
-.controller('editEntryCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('editEntryCtrl', ['$scope', '$stateParams', 'Auth', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, Auth, $location) {
+  $scope.Auth = Auth;
 
+// see if user is logged in and if not redirect using $location.path
+  if (!Auth.currentUser()) {
+    $location.path('/login');
+  }
 
 }])
 
-.controller('calendarCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('calendarCtrl', ['$scope', '$stateParams', 'Auth', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, Auth, $location) {
+  $scope.Auth = Auth;
 
+// see if user is logged in and if not redirect using $location.path
+  if (!Auth.currentUser()) {
+    $location.path('/login');
+  }
 
 }])
 
-.controller('viewEntryCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('viewEntryCtrl', ['$scope', '$stateParams', 'Auth', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, Auth, $location) {
+  $scope.Auth = Auth;
 
+// see if user is logged in and if not redirect using $location.path
+  if (!Auth.currentUser()) {
+    $location.path('/login');
+  }
 
 }])
 
