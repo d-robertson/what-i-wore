@@ -7,17 +7,17 @@ function ($scope, $stateParams) {
 
 }])
 
-.controller('loginCtrl', ['$scope', '$http', '$location', '$stateParams',
-  function($scope, $http, $location, $stateParams) {
+.controller('loginCtrl', ['$scope', '$http', '$location', 'Auth', '$stateParams',
+  function($scope, $http, $location, Auth, $stateParams) {
     $scope.user = {
       email: '',
       password: ''
     };
     $scope.userLogin = function() {
-      $http.post('/api/auth', $scope.user).then(function success(res) {
+      $http.post('http://localhost:3000/api/auth', $scope.user).then(function success(res) {
         Auth.saveToken(res.data.token);
         console.log('Token:', res.data.token);
-        location.path('/');   // or use $state.go('intro');
+        $location.path('/welcome');   // or use $state.go('intro');
       }, function error(res) {
           console.log(res);
       });
@@ -43,11 +43,22 @@ function ($scope, $stateParams) {
   }
 }])
 
-.controller('welcomeCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('welcomeCtrl', ['$scope', 'Auth', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, Auth, $location) {
+  console.log('Token is:', Auth.getToken());
+  $scope.Auth = Auth;
+  $scope.logout = function() {
+    Auth.removeToken();
+    console.log('Token removed:', Auth.getToken());
+  }
 
+  // user clicks on 'what i'm wearing' button and this calls a function that determines if user is signed in
+  $scope.checkIfLoggedIn = function() {
+    if (!Auth.currentUser())
+      $location.path('/login');
+  }
 
 }])
 

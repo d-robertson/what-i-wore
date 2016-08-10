@@ -1,19 +1,19 @@
-<ion-view title="Login" id="page2" class=" " ng-controller="loginCtrl">
+<ion-view title="Login" id="login">
     <ion-content padding="true" class="has-header">
-        <form id="login-form1" class="list ">
-<!--             <ion-list id="login-list1" class=" ">
-                <label class="item item-input " id="login-input1" name="email">
+        <form id="login-form1" class="list " ng-submit="userLogin()">
+            <ion-list id="login-list">
+                <label class="item item-input " for="email" id="login-input1" name="email">
                     <span class="input-label">Email</span>
-                    <input type="email" placeholder="">
+                    <input type="email" id="email" ng-model="user.email">
                 </label>
-                <label class="item item-input " id="login-input2" name="password">
+                <label class="item item-input " for="password" id="login-input2" name="password">
                     <span class="input-label">Password</span>
-                    <input type="password" placeholder="">
+                    <input type="password" id="password" ng-model="user.password">
                 </label>
-            </ion-list> -->
+            </ion-list>
             <div class="spacer" style="height: 40px;"></div>
-            <button id="login-button3" ng-click="login()" class=" button button-stable  button-block ">Log in</button>
-            <a href="#/signup" id="login-button4" class=" button button-positive  button-block button-clear ">Or create an account</a>
+            <button type="submit" id="login-button" class=" button button-stable  button-block ">Log in</button>
+            <a href="#/signup" id="create-account" class=" button button-positive  button-block button-clear ">Or create an account</a>
         </form>
     </ion-content>
 </ion-view>
