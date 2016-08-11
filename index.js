@@ -23,15 +23,16 @@ app.use(require('morgan')('dev'));
 app.use(cors());
 
 // app.use(function(req, res, next) {
-//   // res.setHeader('Access-Control-Allow-Origin', '*');
-//   // res.setHeader('Access-Control-Allow-Methods', '*');
-//   // res.setHeader('Access-Control-Allow-Max-Age', 1000);
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', '*');
+//   res.setHeader('Access-Control-Allow-Max-Age', 1000);
 //   next();
 // })
 
 app.use('/api/users',
   expressJWT({secret: secret}).unless({path: ['/api/users'], method: 'post'}),
   require('./controllers/users'));
+app.use('/api/outfits', expressJWT({secret: secret}), require('./controllers/outfits'));
 
 // this middleware will check if expressJWT did not authorize the user, and return a message
 app.use(function (err, req, res, next) {
@@ -52,12 +53,13 @@ app.post('/api/auth', function(req, res) {
       if (err || !result) return res.status(401).send({ message: 'User not authenticated' });
 
       // sign the JWT with the user payload and secret, then return
-      var token = jwt.sign(user, secret);
+      var token = jwt.sign(user.toJSON(), secret);
 
       return res.send({ user: user, token: token });
     });
   });
 });
+
 
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/index.html'));

@@ -1,4 +1,7 @@
-angular.module('app.services', [])
+angular.module('app.services', ['ngResource'])
+.factory('Outfit', ['$resource', function($resource) {
+  return $resource('http://localhost:3000/api/outfits/:id');
+}])
 
 .factory('Auth', ['$window', function($window) {
   return {

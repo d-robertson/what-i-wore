@@ -61,17 +61,19 @@ function ($scope, Auth, $location) {
   }
 
   // user clicks on 'what i'm wearing' button and this calls a function that determines if user is signed in
-  $scope.checkIfLoggedIn = function() {
-    if (!Auth.currentUser())
-      $location.path('/login');
-  }
+  // $scope.checkIfLoggedIn = function() {
+  //   if (!Auth.currentUser())
+  //     $location.path('/login');
+  // }
 
 }])
 
-.controller('addEntryCtrl', ['$scope', '$stateParams', 'Auth', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('addEntryCtrl', ['$scope', '$location', 'Auth', 'Outfit', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, Auth, $location) {
+function ($scope, $location, Auth, Outfit) {
+  console.log('addEntryCtrl reached');
+  console.log(Outfit);
   $scope.Auth = Auth;
 
 // see if user is logged in and if not redirect using $location.path
@@ -79,6 +81,21 @@ function ($scope, $stateParams, Auth, $location) {
     $location.path('/login');
   }
 
+  $scope.outfit = {
+    image: '',
+    description: '',
+    date: '',
+  };
+
+  $scope.saveOutfit = function() {
+    console.log('saveOutfit called');
+    // console.log(Outfit);
+    Outfit.save($scope.outfit, function success(res) {
+      $location.path('/welcome');
+    }, function error(res) {
+        console.log(res);
+    });
+  };
 }])
 
 .controller('editEntryCtrl', ['$scope', '$stateParams', 'Auth', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -94,10 +111,10 @@ function ($scope, $stateParams, Auth, $location) {
 
 }])
 
-.controller('calendarCtrl', ['$scope', '$stateParams', 'Auth', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('calendarCtrl', ['$scope', '$location', 'Auth', 'Outfit', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, Auth, $location) {
+function ($scope, $location, Auth, Outfit) {
   $scope.Auth = Auth;
 
 // see if user is logged in and if not redirect using $location.path
@@ -105,6 +122,21 @@ function ($scope, $stateParams, Auth, $location) {
     $location.path('/login');
   }
 
+  $scope.outfits = [];
+
+  Outfit.query(function success(res) {
+    $scope.outfits = res;
+  }, function error(res) {
+    console.log(res);
+  });
+
+  $scope.deleteOutfit = function(id, outfitIdx) {
+    Outfit.delete({id: id}, function success(res) {
+      $scope.outfits.splice(outfitIdx, 1);
+    }, function error(res) {
+      console.log(res);
+    });
+  };
 }])
 
 .controller('viewEntryCtrl', ['$scope', '$stateParams', 'Auth', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller

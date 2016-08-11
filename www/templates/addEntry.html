@@ -4,17 +4,17 @@
         <div style="margin: 0px; line-height: 250px; text-align: center; background-color: rgb(232, 235, 239);">
             <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
         </div>
-        <button id="addEntry-button12" class=" button button-positive  button-block ">Add photo</button>
-        <form id="addEntry-form8" class="list ">
-            <label class="item item-input " id="addEntry-input7">
+        <button id="addEntry-button1" class=" button button-positive  button-block ">Add photo</button>
+        <form id="addEntry-form" class="list " ng-submit="saveOutfit()">
+            <label class="item item-input " id="addEntry-input1" for="description" name="description">
                 <span class="input-label">Outfit description</span>
-                <input type="text" placeholder="">
+                <input type="text" id="description" ng-model="outfit.description">
             </label>
-            <label class="item item-input " id="addEntry-input8">
+            <label class="item item-input " id="addEntry-input2" for="date" name="date">
                 <span class="input-label">Date</span>
-                <input type="date" placeholder="">
+                <input type="date" id="date" ng-model="outfit.date">
             </label>
-            <button id="addEntry-button11" class=" button button-positive  button-block ">Save</button>
+            <button type="submit" id="addEntry-button2" class=" button button-positive  button-block ">Save</button>
         </form>
     </ion-content>
 </ion-view>

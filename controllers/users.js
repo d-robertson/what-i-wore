@@ -26,5 +26,4 @@ router.get('/:id', function(req, res) {
 });
 
 module.exports = router;
-// CREATE SEPARATE FILE OR ROUTE FOR LOGIN. IT SHOULD BE A POST ROUTE
-// IF LOGIN INFO IS EQUAL TO REQ.BODY.EMAIL AND PASSWORD, return res.send(user);
+

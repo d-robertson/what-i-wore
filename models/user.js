@@ -2,14 +2,12 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 
 // create a schema
-var UserSchema = mongoose.Schema({
+var userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true }
 });
 
-// var User = mongoose.model('User', userSchema);
-
-UserSchema.set('toJSON', {
+userSchema.set('toJSON', {
   transform: function(doc, ret, options) {
     var returnJson = {
       id: ret._id,
@@ -19,7 +17,7 @@ UserSchema.set('toJSON', {
   }
 });
 
-UserSchema.methods.authenticated = function(password, callback) {
+userSchema.methods.authenticated = function(password, callback) {
   var user = this;
   var isAuthenticated = bcrypt.compareSync(password, user.password);
   console.log(isAuthenticated);
@@ -27,7 +25,7 @@ UserSchema.methods.authenticated = function(password, callback) {
   callback(null, isAuthenticated ? user : false)
 };
 
-UserSchema.pre('save', function(next) {
+userSchema.pre('save', function(next) {
   if (!this.isModified('password')) {
     next();
   } else {
@@ -36,5 +34,5 @@ UserSchema.pre('save', function(next) {
   }
 });
 
-
-module.exports = mongoose.model('User', UserSchema);
+var User = mongoose.model('User', userSchema);
+module.exports = User;

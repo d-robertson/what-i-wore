@@ -1,3 +1,13 @@
 <ion-view title="Calendar" id="page9" class=" ">
-    <ion-content padding="true" class="has-header"></ion-content>
+    <ion-content padding="true" class="has-header">
+
+    <div ng-repeat="outfit in outfits | orderBy:'-date' | date:'medium' track by outfit._id">
+    <h3><strong>Date:{{outfit.date}}</strong></h3>
+    <p><strong>Description</strong>{{outfit.description}}</p>
+    <div>Image: {{outfit.image}}</div>
+    <a ng-href="/outfits/{{outfit._id}}">View outfit</a>
+    <a ng-click="deleteOutfit(outfit._id, $index)">Delete outfit</a>
+    </div>
+
+    </ion-content>
 </ion-view>

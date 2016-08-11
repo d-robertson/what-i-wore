@@ -53,7 +53,7 @@ angular.module('app.routes', [])
   })
 
   .state('viewEntry', {
-    url: '/viewentry',
+    url: '/calendar/:id',
     templateUrl: 'templates/viewEntry.html',
     controller: 'viewEntryCtrl'
   })
