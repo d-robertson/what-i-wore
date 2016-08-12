@@ -14,7 +14,7 @@ function ($scope, $stateParams) {
       password: ''
     };
     $scope.userLogin = function() {
-      $http.post('http://localhost:3000/api/auth', $scope.user).then(function success(res) {
+      $http.post('https://whatiwore.herokuapp.com/api/auth', $scope.user).then(function success(res) {
         Auth.saveToken(res.data.token);
         console.log('Token:', res.data.token);
         $location.path('/welcome');   // or use $state.go('intro');
@@ -34,7 +34,7 @@ function ($scope, $stateParams) {
   };
   $scope.userSignup = function() {
     // sending the user signup data (email and password) to backend controller
-    $http.post('http://localhost:3000/api/users', $scope.user).then(function success(res) {
+    $http.post('https://whatiwore.herokuapp.com/api/users', $scope.user).then(function success(res) {
       // redirecting the front end to the root path
       $location.path('/');
     }, function error(res) {
