@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/whatiwore');
 // decode POST data in JSON and URL encoded formats
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'www')));
 app.use(require('morgan')('dev'));
 app.use(cors());
 
