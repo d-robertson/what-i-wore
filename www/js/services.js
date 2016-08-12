@@ -1,6 +1,6 @@
 angular.module('app.services', ['ngResource'])
 .factory('Outfit', ['$resource', function($resource) {
-  return $resource('http://whatiwore.herokuapp.com/api/outfits/:id');
+  return $resource('https://whatiwore.herokuapp.com/api/outfits/:id');
 }])
 
 .factory('Auth', ['$window', function($window) {
