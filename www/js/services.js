@@ -1,4 +1,5 @@
 angular.module('app.services', ['ngResource'])
+
 .factory('Outfit', ['$resource', function($resource) {
   return $resource('https://whatiwore.herokuapp.com/api/outfits/:id');
 }])
