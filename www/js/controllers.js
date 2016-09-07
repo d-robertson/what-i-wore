@@ -139,10 +139,10 @@ function ($scope, $location, Auth, Outfit) {
   };
 }])
 
-.controller('viewEntryCtrl', ['$scope', '$location', 'Auth', 'Outfit', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('viewEntryCtrl', ['$scope', '$location', '$stateParams', 'Auth', 'Outfit', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $location, Auth, Outfit) {
+function ($scope, $location, $stateParams, Auth, Outfit) {
   $scope.Auth = Auth;
 
 // see if user is logged in and if not redirect using $location.path
@@ -150,10 +150,16 @@ function ($scope, $location, Auth, Outfit) {
     $location.path('/login');
   }
 
-  Outfit.findById(function success(res) {
+  // Outfit.findById(function success(res) {
 
-  })
+  // })
 
+
+    Outfit.get({ id:$stateParams.id }, function success(res) {
+      $scope.outfit = res;
+    }, function error(res) {
+        console.log(res);
+    });
 
 
 }])
