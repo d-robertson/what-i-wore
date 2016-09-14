@@ -88,7 +88,7 @@ function ($scope, $location, Auth, Outfit) {
   };
 
   $scope.saveOutfit = function() {
-    console.log('saveOutfit called');
+    console.log('saveOutfit called', $scope.outfit);
     // console.log(Outfit);
     Outfit.save($scope.outfit, function success(res) {
       $location.path('/welcome');
@@ -125,10 +125,18 @@ function ($scope, $location, Auth, Outfit) {
   $scope.outfits = [];
 
   Outfit.query(function success(res) {
+    console.log(res)
     $scope.outfits = res;
   }, function error(res) {
     console.log(res);
   });
+
+  $scope.urlForImage = function(imageName){
+    var name = imageName.substr(imageName.lastIndexOf('/') + 1);
+    var trueOrigin = cordova.file.dataDirectory + name;
+    console.log('In calendar controller, url changer: ', trueOrigin);
+    return trueOrigin;
+  }
 
   $scope.deleteOutfit = function(id, outfitIdx) {
     Outfit.delete({id: id}, function success(res) {
@@ -156,6 +164,7 @@ function ($scope, $location, $stateParams, Auth, Outfit) {
 
 
     Outfit.get({ id:$stateParams.id }, function success(res) {
+      console.log('viewEntryCtrl scope outfit', res);
       $scope.outfit = res;
     }, function error(res) {
         console.log(res);
@@ -169,7 +178,7 @@ function ($scope, $location, $stateParams, Auth, Outfit) {
     $scope.takePicture = function() {
         var options = {
             quality : 75,
-            destinationType : Camera.DestinationType.DATA_URL,
+            destinationType : Camera.DestinationType.FILE_URI,
             sourceType : Camera.PictureSourceType.CAMERA,
             allowEdit : true,
             encodingType: Camera.EncodingType.JPEG,
@@ -180,7 +189,45 @@ function ($scope, $location, $stateParams, Auth, Outfit) {
         };
 
         $cordovaCamera.getPicture(options).then(function(imageData) {
-            $scope.imgURI = "data:image/jpeg;base64," + imageData;
+            $scope.imgURI = imageData;
+            console.log('The image data:', imageData);
+            window.resolveLocalFileSystemURL(imageData, copyFile, fail);
+
+            function copyFile(fileEntry){
+              var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+              var newName = makeId() + name;
+
+              console.log('name: ', name);
+
+              window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2){
+                fileEntry.copyTo(fileSystem2, newName, onCopySuccess, fail);
+              }, fail);
+            }
+
+            function onCopySuccess(entry){
+              console.log('entry: ', entry.nativeURL);
+              console.log('scope parent: ', $scope.$parent);
+              $scope.$apply(function(){
+                $scope.$parent.outfit.image = entry.nativeURL;
+              });
+            }
+
+            function fail(error){
+              console.log('error: ', error);
+            }
+
+            function makeId(){
+              var text = "";
+              var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+              for(var i = 0; i<5; i++){
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+              }
+              return text;
+            }
+
+
+
         }, function(err) {
             // An error occured. Show a message to the user
             console.log(err);
