@@ -41,7 +41,7 @@ angular.module('app.routes', [])
   })
 
   .state('editEntry', {
-    url: '/editentry',
+    url: '/calendar/:id/editentry',
     templateUrl: 'templates/editEntry.html',
     controller: 'editEntryCtrl'
   })
