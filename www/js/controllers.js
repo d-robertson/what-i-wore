@@ -97,7 +97,7 @@ function ($scope, $location, Auth, Outfit) {
     });
   };
 }])
-
+// the editEntryCtrl controller is not needed anymore because we made it a nested state of viewEntry. It now uses the viewEntry controller.
 .controller('editEntryCtrl', ['$scope', '$location', '$stateParams', 'Auth', 'Outfit', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -161,7 +161,9 @@ function ($scope, $location, $stateParams, Auth, Outfit, $state) {
   // Outfit.findById(function success(res) {
 
   // })
-
+    $scope.viewOutfit = function() {
+      $state.go('viewEntry.index')
+    };
 
     Outfit.get({ id:$stateParams.id }, function success(res) {
       console.log('viewEntryCtrl scope outfit', res);
@@ -172,7 +174,7 @@ function ($scope, $location, $stateParams, Auth, Outfit, $state) {
 
     $scope.editOutfit = function() {
         // $location.path('/calendar/{id}/editentry');
-        $state.go('editEntry');
+        $state.go('viewEntry.index.edit');
       };
 
 }])
