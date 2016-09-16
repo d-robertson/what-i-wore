@@ -8,8 +8,6 @@ angular.module('app.routes', [])
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-
-
   .state('intro', {
     url: '/',
     templateUrl: 'templates/intro.html',
@@ -40,12 +38,6 @@ angular.module('app.routes', [])
     controller: 'addEntryCtrl'
   })
 
-  .state('editEntry', {
-    url: '/editentry',
-    templateUrl: 'templates/editEntry.html',
-    controller: 'editEntryCtrl'
-  })
-
   .state('calendar', {
     url: '/calendar',
     templateUrl: 'templates/calendar.html',
@@ -53,9 +45,28 @@ angular.module('app.routes', [])
   })
 
   .state('viewEntry', {
-    url: '/calendar/:id',
-    templateUrl: 'templates/viewEntry.html',
-    controller: 'viewEntryCtrl'
+    url: '/viewentry',
+    templateUrl: 'templates/Entries/index.html',
+    abstract: true
+  })
+
+  .state('viewEntry.index', {
+    url:'/:id',
+    views: {
+      'viewEntry-index': {
+        templateUrl: 'templates/viewEntry.html',
+        controller: 'viewEntryCtrl'
+      }
+    }
+  })
+  .state('viewEntry.index.edit', {
+    url: '/edit',
+    views: {
+      'ViewEntry-index-edit': {
+        templateUrl: 'templates/editEntry.html',
+        controller: 'viewEntryCtrl'
+      }
+    }
   })
 
 $urlRouterProvider.otherwise('/')
@@ -64,3 +75,5 @@ $urlRouterProvider.otherwise('/')
 .config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push('AuthInterceptor');
 }]);
+
+

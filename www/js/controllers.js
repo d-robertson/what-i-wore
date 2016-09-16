@@ -97,11 +97,11 @@ function ($scope, $location, Auth, Outfit) {
     });
   };
 }])
-
-.controller('editEntryCtrl', ['$scope', '$stateParams', 'Auth', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// the editEntryCtrl controller is not needed anymore because we made it a nested state of viewEntry. It now uses the viewEntry controller.
+.controller('editEntryCtrl', ['$scope', '$location', '$stateParams', 'Auth', 'Outfit', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, Auth, $location) {
+function ($scope, $location, $stateParams, Auth, Outfit) {
   $scope.Auth = Auth;
 
 // see if user is logged in and if not redirect using $location.path
@@ -147,10 +147,10 @@ function ($scope, $location, Auth, Outfit) {
   };
 }])
 
-.controller('viewEntryCtrl', ['$scope', '$location', '$stateParams', 'Auth', 'Outfit', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('viewEntryCtrl', ['$scope', '$location', '$stateParams', 'Auth', 'Outfit', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $location, $stateParams, Auth, Outfit) {
+function ($scope, $location, $stateParams, Auth, Outfit, $state) {
   $scope.Auth = Auth;
 
 // see if user is logged in and if not redirect using $location.path
@@ -161,7 +161,9 @@ function ($scope, $location, $stateParams, Auth, Outfit) {
   // Outfit.findById(function success(res) {
 
   // })
-
+    $scope.viewOutfit = function() {
+      $state.go('viewEntry.index')
+    };
 
     Outfit.get({ id:$stateParams.id }, function success(res) {
       console.log('viewEntryCtrl scope outfit', res);
@@ -170,6 +172,10 @@ function ($scope, $location, $stateParams, Auth, Outfit) {
         console.log(res);
     });
 
+    $scope.editOutfit = function() {
+        // $location.path('/calendar/{id}/editentry');
+        $state.go('viewEntry.index.edit');
+      };
 
 }])
 
